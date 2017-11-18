@@ -34,12 +34,17 @@ my $parms = {
     clean               => { FILES => 'Test-WWW-Mechanize-*' },
 };
 
+# EUMM added support for TEST_REQUIRES in 6.63_03
 if ( $eumm_version >= 6.63_03 ) {
     $parms->{TEST_REQUIRES} = \%test_prereqs;
 }
+# EUMM added support for BUILD_REQUIRES in 6.63_03.  use it for test prereqs
+# when TEST_REQUIRES is not supported.
 elsif ( $eumm_version >= 6.55_01 ) {
     $parms->{BUILD_REQUIRES} = \%test_prereqs;
 }
+# if TEST_REQUIRES and BUILD_REQUIRES aren't supported, just collapse test
+# prereqs into the main prereqs.
 else {
     %prereqs = ( %prereqs, %test_prereqs );
 }
